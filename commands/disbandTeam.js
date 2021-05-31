@@ -12,6 +12,7 @@ module.exports = {
     let name = args[0];
     let game = args[1];
     
+    
     Team = TeamModel;
     let deleted = true;
     
