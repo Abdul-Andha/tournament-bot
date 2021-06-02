@@ -1,20 +1,17 @@
-let Team;
-let teamDb;
-
 module.exports = {
   name: 'disbandTeam',
   description: 'Disbands a team that matches the given name, game, and captain. Team must exist to disband. Team can not be signed up for a tournament.',
-  execute(receivedMessage, args, TeamModel) {
-    if (args.length != 2) {
+  execute(receivedMessage, args, Team) {
+    if (args.length < 2) {
       receivedMessage.channel.send('Invalid arguments. Check the format again.');
       return receivedMessage.react('❌');
     }
-    let name = args[0];
-    let game = args[1];
-    
-    
-    Team = TeamModel;
-    let deleted = true;
+    let game = args[0];
+    let name = "";
+    for (let i = 1; i < args.length - 1; i++) {
+      name += args[i] + " ";
+    }
+    name += args[args.length - 1];
     
     Team.deleteOne({
       teamName: name,

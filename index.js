@@ -4,6 +4,7 @@ const fs = require(`fs`);
 
 const Player = require('./models/player.js');
 const Team = require('./models/team.js');
+const Tournament = require('./models/tournament.js');
 
 const uri = "mongodb://thunder:Id223278342@mesatourneydb-shard-00-00.5e4g6.mongodb.net:27017,mesatourneydb-shard-00-01.5e4g6.mongodb.net:27017,mesatourneydb-shard-00-02.5e4g6.mongodb.net:27017/mesaDB?ssl=true&replicaSet=atlas-unw55f-shard-0&authSource=admin&retryWrites=true&w=majority";
 
@@ -56,8 +57,11 @@ function processCommand(receivedMessage) {
     else if ((mainCommand === "createteam" || mainCommand === "ct"))
       bot.commands.get('createTeam').execute(receivedMessage, args, Player, Team);
         
-    else if ((mainCommand === "disband"))
+    else if (mainCommand === "disband")
       bot.commands.get('disbandTeam').execute(receivedMessage, args, Team);
+    
+    else if ((mainCommand === "newtourney") || mainCommand === "newtournament" || mainCommand === "nt")
+      bot.commands.get('createTournament').execute(receivedMessage, args, Tournament);
         
     else receivedMessage.channel.send("Unknown Command");
 }

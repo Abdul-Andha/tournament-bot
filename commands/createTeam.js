@@ -9,12 +9,17 @@ module.exports = {
   name: 'createTeam',
   description: 'Creates a new team. The user of this command will be the captain. User must be registered and not in an existing team. args will be team name and game. The same team name can not be repeated in that game.',
   execute(receivedMessage, args, PlayerModel, TeamModel) {
-    if (args.length != 2) {
+    if (args.length < 2) {
       receivedMessage.channel.send('Invalid arguments. Check the format again.');
       return receivedMessage.react('❌');
     }
-    let name = args[0];
-    let game = args[1];
+    let game = args[0];
+    let name = "";
+    for (let i = 1; i < args.length - 1; i++) {
+      name += args[i] + " ";
+    }
+    name += args[args.length - 1];
+    
     if (!validGames.includes(game.toLowerCase())) {
       receivedMessage.channel.send('Invalid game. Check the list of games again.');
       return receivedMessage.react('❌');

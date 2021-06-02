@@ -7,7 +7,8 @@ const playerSchema = new Schema({
     required: true
   },
   discordID: {
-    type: String
+    type: String,
+    required: true
   }
 }, { timestamps: true });
 
