@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const Discord = require(`discord.js`);
 const fs = require(`fs`);
+const helper = require('./commands/helperFunctions');
 
 const Player = require('./models/player.js');
 const Team = require('./models/team.js');
@@ -60,10 +61,11 @@ function processCommand(receivedMessage) {
     else if (mainCommand === "disband")
       bot.commands.get('disbandTeam').execute(receivedMessage, args, Team);
     
-    else if ((mainCommand === "newtourney") || mainCommand === "newtournament" || mainCommand === "nt")
+    else if ( (mainCommand === "newtourney"|| mainCommand === "newtournament" || mainCommand === "nt") 
+    && (helper.hasRole(receivedMessage.member, "Branch Directors") || helper.hasRole(receivedMessage.member, "Pro Manager")) )
       bot.commands.get('createTournament').execute(receivedMessage, args, Tournament);
         
-    else receivedMessage.channel.send("Unknown Command");
+    //else receivedMessage.channel.send("Unknown Command");
 }
 
 bot.login("ODQ2ODQzMjcyNzE4MTg4NTk0.YK1aQQ.XdCM1cJV4VNDCHtYLQAjLGi7bwQ");

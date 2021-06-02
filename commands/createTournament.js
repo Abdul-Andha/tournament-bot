@@ -25,28 +25,38 @@ module.exports = {
     }
     name += args[args.length - 1];
     
-    if (tourneyExists(name)) {
-      receivedMessage.channel.send('Invalid name. A tournament with that name already exists!');
-      return receivedMessage.react('❌');
-    }
-    
-    const tournament = new Tournament({
-      name: name,
-      game: game,
-      limit: limit, 
-      teamIds: []
-    });
-    
-    tournament.save()
+    tourneyExists(name)
       .then((res) => {
-        receivedMessage.channel.send(name + " has been successfully created!");
-        receivedMessage.react('✅');
+        if (res) {
+          receivedMessage.channel.send('Invalid name. A tournament with that name already exists!');
+          return receivedMessage.react('❌');
+        } else {
+          const tournament = new Tournament({
+          name: name,
+          game: game,
+          limit: limit, 
+          teamIds: []
+          });
+    
+          tournament.save()
+          .then((res) => {
+            receivedMessage.channel.send(name + " has been successfully created!");
+            receivedMessage.react('✅');
+          })
+          .catch((err) => {
+            receivedMessage.channel.send("An error occurred. Please screenshot this and contact Thunder#6228. Error code: 40");
+            receivedMessage.react('❌');
+            console.log(err);
+          });
+        }
       })
       .catch((err) => {
-        receivedMessage.channel.send("An error occurred. Please screenshot this and contact Thunder#6228. Error code: 40");
+        receivedMessage.channel.send("An error occurred. Please screenshot this and contact Thunder#6228. Error code: 41");
         receivedMessage.react('❌');
         console.log(err);
       });
+    
+   
   }
 }
 

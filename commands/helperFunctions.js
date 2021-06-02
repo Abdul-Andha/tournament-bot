@@ -9,3 +9,9 @@ const isRegistered = (id, data) => {
 };
 
 exports.isRegistered = isRegistered;
+
+const hasRole = (member, role) => {
+  return member.roles.cache.some(r => r.name.indexOf(role) != -1);
+};
+
+exports.hasRole = hasRole;
