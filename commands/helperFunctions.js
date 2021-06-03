@@ -15,3 +15,35 @@ const hasRole = (member, role) => {
 };
 
 exports.hasRole = hasRole;
+
+const isCap = (id, game, teams) => {
+  let returnValue = false;
+  teams.forEach(ele => {
+    if (ele.game == game && ele.capDiscordID == id)
+      returnValue = true;
+  });
+  return returnValue;
+}
+
+exports.isCap = isCap;
+
+const isInTeam = (id, game, teams) => {
+  let returnValue = false;
+  teams.forEach(ele => {
+    if (ele.game == game && ele.playerIDs.includes(id))
+      returnValue = true;
+  });
+  return returnValue;
+}
+
+exports.isInTeam = isInTeam;
+
+const hasInvite = (id, players) => {
+  let returnValue = false;
+  players.forEach(ele => {
+    if (ele.discordID == id && ele.invite != "") {
+      returnValue = true;
+    }
+  });
+  return returnValue;
+};

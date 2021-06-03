@@ -9,6 +9,10 @@ const playerSchema = new Schema({
   discordID: {
     type: String,
     required: true
+  },
+  invite: {
+    type: String,
+    required: true
   }
 }, { timestamps: true });
 

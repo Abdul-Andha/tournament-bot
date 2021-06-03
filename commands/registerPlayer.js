@@ -32,7 +32,8 @@ module.exports = {
 async function register(user, data) {
   const player = new Player({
     username: user.username,
-    discordID: user.id
+    discordID: user.id,
+    invite: ""
   });
   await player.save();
   return helper.isRegistered(user.id, data);

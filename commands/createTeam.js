@@ -58,12 +58,12 @@ function meetsConditions(receivedMessage, name, game) {
     returnValue = false;
   }
   
-  if (isInTeam(captain.id, game, teamDb)) {
+  if (helper.isInTeam(captain.id, game, teamDb)) {
     errorMsg += "Error: " + captain.username + ", you are a player in a team for " + game + "\n";
     returnValue = false;
   }
   
-  if (isCap(captain.id, game, teamDb)) {
+  if (helper.isCap(captain.id, game, teamDb)) {
     errorMsg += "Error: " + captain.username + ", you are already a captain for another team in " + game + "\n";
     returnValue = false;
   }
@@ -77,24 +77,6 @@ function isTeamNameUnique(name, game, teams) {
   teams.forEach(ele => {
     if (ele.teamName == name && ele.game == game)
       returnValue = false;
-  });
-  return returnValue;
-}
-
-function isInTeam(id, game, teams) {
-  let returnValue = false;
-  teams.forEach(ele => {
-    if (ele.game == game && ele.playerIDs.includes(id))
-      returnValue = true;
-  });
-  return returnValue;
-}
-
-function isCap(id, game, teams) {
-  let returnValue = false;
-  teams.forEach(ele => {
-    if (ele.game == game && ele.capDiscordID == id)
-      returnValue = true;
   });
   return returnValue;
 }
