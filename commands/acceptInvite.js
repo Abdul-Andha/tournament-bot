@@ -32,27 +32,22 @@ module.exports = {
         addPlayer();
       }
     }).catch(err => {
-      receivedMessage.channel.send("An error occurred. Please screenshot this and contact Thunder#6228. Error code: 70");
-      receivedMessage.react('❌');
-      console.log(err);
+      helper.handleError(err, receivedMessage, 70);
     })
   }
 }
 
 async function addPlayer() {
   targetTeam.playerDiscordIds.push(player.id);
-  teams.forEach(team => {
+  for (let team of teams) {
     while (team.inviteeDiscordIds.includes(player.id)) {
       let idx = team.inviteeDiscordIds.indexOf(player.id)
       team.inviteeDiscordIds.splice(idx, 1);
     }
-    await team.save().catch((err => {
-      receivedMessage.channel.send("An error occurred. Please screenshot this and contact Thunder#6228. Error code: 71");
-      receivedMessage.react('❌');
-      console.log(err);
-    })
-  });
-  
+    await team.save().catch(err => {
+      helper.handleError(err, receivedMessage, 71);
+    })  
+  }
 }
 
 //inits players and teams so they can be used later

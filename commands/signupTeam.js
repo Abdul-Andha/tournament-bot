@@ -50,9 +50,7 @@ module.exports = {
         }
       })
       .catch((err) => {
-        receivedMessage.channel.send("An error occurred. Please screenshot this and contact Thunder#6228. Error code: 62");
-        receivedMessage.react('❌');
-        console.log(err);
+        helper.handleError(err, receivedMessage, 60);
       });
   }
 }
@@ -95,9 +93,7 @@ async function signUpTeam(team) {
   tournament.teamIds.push(team._id);
   await tournament.save()
     .catch((err) => {
-      receivedMessage.channel.send("An error occurred. Please screenshot this and contact Thunder#6228. Error code: 62");
-      receivedMessage.react('❌');
-      console.log(err);
+      helper.handleError(err, receivedMessage, 62);
     });
 }
 
@@ -123,9 +119,7 @@ async function createTeam(receivedMessage, name, game) {
   });
   await team.save()
     .catch((err) => {
-      receivedMessage.channel.send("An error occurred. Please screenshot this and contact Thunder#6228. Error code: 61");
-      receivedMessage.react('❌');
-      console.log(err);
+      helper.handleError(err, receivedMessage, 61);
     });
   return team;
 }

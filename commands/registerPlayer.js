@@ -8,6 +8,7 @@ module.exports = {
     Player = PlayerConstructor;
     Player.find()
       .then((result) => {
+        test = helper.test();
         if (helper.isRegistered(receivedMessage.author.id, result)) {
           receivedMessage.channel.send(receivedMessage.author.username + ', you are already registered!');
           receivedMessage.react('❌');
@@ -16,15 +17,12 @@ module.exports = {
             receivedMessage.channel.send(receivedMessage.author.username + ', you have been succesfully registered!')
             receivedMessage.react('✅');
           } else {
-            receivedMessage.channel.send('An error occurred. Please screenshot this and contact Thunder#6228. Error code: 01');
-            receivedMessage.react('❌');
+            helper.handleError(err, receivedMessage, "01");
           }
         }
       })
       .catch((err) => {
-        receivedMessage.channel.send('An error occurred. Please screenshot this and contact Thunder#6228. Error code: 00');
-        receivedMessage.react('❌');
-        console.log(err);
+        helper.handleError(err, receivedMessage, "00");
       })
   }
 }

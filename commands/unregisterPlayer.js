@@ -16,15 +16,12 @@ module.exports = {
             receivedMessage.channel.send(receivedMessage.author.username + ', you have been unregistered.');
             receivedMessage.react('✅');
           } else {
-            receivedMessage.channel.send('An error occurred. Please screenshot this and contact Thunder#6228. Error code: 11');
-            receivedMessage.react('❌');
+            helper.handleError(err, receivedMessage, 11);
           }
         }
       })
       .catch((err) => {
-        receivedMessage.channel.send('An error occurred. Please screenshot this and contact Thunder#6228. Error code: 10');
-        receivedMessage.react('❌');
-        console.log(err);
+        helper.handleError(err, receivedMessage, 10);
       });
   }
 }

@@ -38,12 +38,20 @@ const isInTeam = (id, game, teams) => {
 
 exports.isInTeam = isInTeam;
 
-const hasInvite = (id, players) => {
-  let returnValue = false;
-  players.forEach(ele => {
-    if (ele.discordID == id && ele.invite != "") {
-      returnValue = true;
-    }
-  });
-  return returnValue;
-};
+// const hasInvite = (id, players) => {
+//   let returnValue = false;
+//   players.forEach(ele => {
+//     if (ele.discordID == id && ele.invite != "") {
+//       returnValue = true;
+//     }
+//   });
+//   return returnValue;
+// };
+
+const handleError = (error, receivedMessage, errorCode) => {
+  receivedMessage.channel.send("An error occurred. Please screenshot this and contact Thunder#6228. Error code: " + errorCode + ".");
+  receivedMessage.react('❌');
+  console.log(error);
+}
+
+exports.handleError = handleError;

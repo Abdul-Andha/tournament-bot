@@ -36,9 +36,7 @@ module.exports = {
         }
       })
       .catch((err) => {
-        receivedMessage.channel.send("An error occurred. Please screenshot this and contact Thunder#6228. Error code: 22");
-        receivedMessage.react('❌');
-        console.log(err);
+        helper.handleError(err, receivedMessage, 20);
       });
   }
 }
@@ -97,27 +95,21 @@ function createTeam(receivedMessage, name, game) {
       receivedMessage.react('✅');
     })
     .catch((err) => {
-      receivedMessage.channel.send("An error occurred. Please screenshot this and contact Thunder#6228. Error code: 22");
-      receivedMessage.react('❌');
-      console.log(err);
+      helper.handleError(err, receivedMessage, 21);
     });
 }
 
 async function initializeDbs() {
   teamDb = await Team.find()
     .catch((err) => {
-      receivedMessage.channel.send('An error occurred. Please screenshot this and contact Thunder#6228. Error code: 23');
-      receivedMessage.react('❌');
+      helper.handleError(err, receivedMessage, 22);
       returnValue = false;
-      console.log(err);
     });
     
   playerDb = await Player.find()
     .catch((err) => {
-      receivedMessage.channel.send('An error occurred. Please screenshot this and contact Thunder#6228. Error code: 24');
-      receivedMessage.react('❌');
+      helper.handleError(err, receivedMessage, 23);
       returnValue = false;
-      console.log(err);
     });
     
   //console.log(playerDb, teamDb);

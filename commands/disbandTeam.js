@@ -27,9 +27,7 @@ module.exports = {
         receivedMessage.react('✅');
       }
       if (err) {
-        receivedMessage.channel.send('An error occurred. Please screenshot this and contact Thunder#6228. Error code: 30');
-        receivedMessage.react('❌');
-        console.log(err);
+        helper.handleError(err, receivedMessage, 30);
       }
     });
   }

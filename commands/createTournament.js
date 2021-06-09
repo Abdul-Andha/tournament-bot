@@ -46,16 +46,12 @@ module.exports = {
             receivedMessage.react('✅');
           })
           .catch((err) => {
-            receivedMessage.channel.send("An error occurred. Please screenshot this and contact Thunder#6228. Error code: 40");
-            receivedMessage.react('❌');
-            console.log(err);
+            helper.handleError(err, receivedMessage, 40);
           });
         }
       })
       .catch((err) => {
-        receivedMessage.channel.send("An error occurred. Please screenshot this and contact Thunder#6228. Error code: 41");
-        receivedMessage.react('❌');
-        console.log(err);
+        helper.handleError(err, receivedMessage, 41);
       });
     
    
@@ -73,9 +69,7 @@ async function tourneyExists(name) {
       });
     })
     .catch ((err) => {
-      receivedMessage.channel.send("An error occurred. Please screenshot this and contact Thunder#6228. Error code: 41");
-      receivedMessage.react('❌');
-      console.log(err);
+      helper.handleError(err, receivedMessage, 42);
     })
   return returnValue;
 }

@@ -32,9 +32,7 @@ module.exports = {
               receivedMessage.channel.send(player.username + " has been invited. To accept, they have to run `.acceptinvite [team name][tournament name]` ");
               receivedMessage.react('✅');
             }).catch(err => {
-              receivedMessage.channel.send("An error occurred. Please screenshot this and contact Thunder#6228. Error code: 53");
-              receivedMessage.react('❌');
-              console.log(err);
+              helper.handleError(err, receivedMessage, 53);
             })
           }
         } else {
@@ -42,14 +40,10 @@ module.exports = {
           receivedMessage.react('❌');
         }
       }).catch((err) => {
-        receivedMessage.channel.send("An error occurred. Please screenshot this and contact Thunder#6228. Error code: 51");
-        receivedMessage.react('❌');
-        console.log(err);
+        helper.handleError(err, receivedMessage, 51);
       });
     }).catch(err => {
-      receivedMessage.channel.send("An error occurred. Please screenshot this and contact Thunder#6228. Error code: 50");
-      receivedMessage.react('❌');
-      console.log(err);
+      helper.handleError(err, receivedMessage, 50);
     });
   }
 }
@@ -58,9 +52,7 @@ async function invitePlayer(player, team) {
   team.inviteeDiscordIds.push(player.id);
   await team.save()
     .catch((err) => {
-      receivedMessage.channel.send("An error occurred. Please screenshot this and contact Thunder#6228. Error code: 52");
-      receivedMessage.react('❌');
-      console.log(err);
+      helper.handleError(err, receivedMessage, 52);
     });
 }
 
