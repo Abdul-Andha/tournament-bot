@@ -19,7 +19,7 @@ exports.hasRole = hasRole;
 const isCap = (id, teams) => {
   let returnValue = false;
   teams.forEach(ele => {
-    if (ele.capDiscordID == id)
+    if (ele.capDiscordId == id)
       returnValue = true;
   });
   return returnValue;

@@ -19,7 +19,7 @@ module.exports = {
       Team.findOne({teamName: teamName, capDiscordId: captain.id})
       .then ((team) => {
         if (team) {
-          if (helper.isInTeam(player.id, teams)) {
+          if (helper.isInTeam(12, teams)) {
             receivedMessage.channel.send('The player you are trying to invite is in another team in this tournament.');
             receivedMessage.react('❌');
           } else if (team.playerDiscordIds.length >= team.maxPlayers) {

@@ -1,16 +1,20 @@
 const helper = require('./helperFunctions');
+const teamManager = require('./../helpers/teamManager');
+
 let tourneyName;
 let teamName;
 let teams; //teams in the tourney that the player is referencing
 let tournament; //tournament that the player is referencing 
 let targetTeam; //the team the player is trying to join
 let player;
+let receivedMessage;
 
 
 module.exports = {
   name: 'acceptInvite',
   description: 'Command for players. User must be invited to the team prior to running the command. Invitee will automatically decline all other invites they may or may not have. If team reaches minimum threshold, their pending value will be changed to false. If team reaches maximum threshold, all outstading invites to that team will be deleted. Format: .acceptinvite ["tourneyName"] ["teamName"]',
-  execute(receivedMessage, args, Team, Tournament) {
+  execute(message, args, Team, Tournament) {
+    receivedMessage = message;
     if (args.length != 2) {
       receivedMessage.channel.send('Invalid arguments. Check the format again.');
       return receivedMessage.react('❌');
@@ -33,6 +37,7 @@ module.exports = {
         addPlayer().then(() => {
           receivedMessage.channel.send("You have been added to the roster of `" + teamName + "`  for  `" + tourneyName + "`.");
           receivedMessage.react('✅');
+          teamManager.manageThresholds(receivedMessage, targetTeam);
         });
       }
     }).catch(err => {
