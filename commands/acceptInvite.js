@@ -7,6 +7,7 @@ let tournament; //tournament that the player is referencing
 let targetTeam; //the team the player is trying to join
 let player;
 
+
 module.exports = {
   name: 'invitePlayer',
   description: 'Command for players. User must be invited to the team prior to running the command. Invitee will automatically decline all other invites they may or may not have. If team reaches minimum threshold, their pending value will be changed to false. If team reaches maximum threshold, all outstading invites to that team will be deleted. Format: .acceptinvite ["tourneyName"] ["teamName"] [game]',
