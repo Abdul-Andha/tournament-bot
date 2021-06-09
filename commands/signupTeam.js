@@ -1,14 +1,14 @@
-let Player;
-let players; // players in this tourney
+const helper = require('./helperFunctions');
+
 let Team;
 let teams = []; //teams in this tourney
 let tournament; // the specific tourney the user is trying to sign up for
 
 module.exports = {
   name: 'signupTeam',
-  description: 'Format: .signup ["Tourney Name"] [game] ["Team Name"] [teamCode] [@player] [@player] etc for all the players. Command for captains. User will be captain of the team and therefore, can not be captain of any other team in this tournament. Team of that name can not already be signed up for the tourney. Players can not be in another team in this tournament. Captain must include themselves in the @player if they want to be a player as well. Teams must have required number of players.',
+  description: 'Format: .signup ["Tourney Name"] ["Team Name"] [teamCode] [@player] [@player] etc for all the players. Command for captains. User will be captain of the team and therefore, can not be captain of any other team in this tournament. Team of that name can not already be signed up for the tourney. Players can not be in another team in this tournament. Captain must include themselves in the @player if they want to be a player as well. Teams must have required number of players.',
   execute(receivedMessage, args, PlayerModel, TeamModel, TournamentModel) {
-    if (args.length < 5) {
+    if (args.length < 4) {
       receivedMessage.channel.send("Invalid format: Not enough arguments.");
       return receivedMessage.react('❌');
     }
@@ -19,7 +19,7 @@ module.exports = {
     Team = TeamModel;
     Tournament = TournamentModel;
 
-    Tournament.findOne({name: args[0], game: args[1]})
+    Tournament.findOne({name: args[0]})
       .then((res) => {
         if (res) {
           tournament = res;
@@ -28,7 +28,7 @@ module.exports = {
             if (nameTaken(teamName)) {
               receivedMessage.channel.send("A team of that name already exists in this tournament.");
               receivedMessage.react('❌');
-            } else if (isCap(receivedMessage.author.id)) {
+            } else if (helper.isCap(receivedMessage.author.id, teams)) {
               receivedMessage.channel.send("You are already a captain for another team in this tournament.");
               receivedMessage.react('❌');
             } else if (!arePlayersUnique(receivedMessage.mentions.users.array())) {
@@ -38,7 +38,7 @@ module.exports = {
               .then((res) => {
                 signUpTeam(res)
                 .then((res) => {
-                  receivedMessage.channel.send("Team has been created and players have been invited. To confirm sign up, the players must accept invite using the command `.acceptinvite [team name][tournament name]`");
+                  receivedMessage.channel.send("Players have been invited. To confirm sign up, the players must accept invite using the command `.acceptinvite [tournament name][team name]`");
                   receivedMessage.react('✅');
                 })
               })
@@ -65,15 +65,15 @@ function nameTaken(teamName) {
   return returnValue;
 }
 
-function isCap(capId) {
-  let returnValue = false;
-  teams.forEach(team => {
-    if (team.capDiscordId == capId) {
-      returnValue = true;
-    }
-  });
-  return returnValue;
-}
+// function isCap(capId) {
+//   let returnValue = false;
+//   teams.forEach(team => {
+//     if (team.capDiscordId == capId) {
+//       returnValue = true;
+//     }
+//   });
+//   return returnValue;
+// }
 
 function arePlayersUnique(mentioned) {
   let returnValue = true;
@@ -97,7 +97,7 @@ async function signUpTeam(team) {
     });
 }
 
-async function createTeam(receivedMessage, name, game) {
+async function createTeam(receivedMessage, name) {
   let captain = receivedMessage.author;
   let mentioned = receivedMessage.mentions.users.array();
   let mentionedIds = [];
@@ -108,7 +108,6 @@ async function createTeam(receivedMessage, name, game) {
   
   const team = new Team({
     teamName: name,
-    game: game,
     capName: captain.username,
     capDiscordId: captain.id,
     playerDiscordIds: [],

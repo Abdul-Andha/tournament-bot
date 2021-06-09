@@ -16,10 +16,10 @@ const hasRole = (member, role) => {
 
 exports.hasRole = hasRole;
 
-const isCap = (id, game, teams) => {
+const isCap = (id, teams) => {
   let returnValue = false;
   teams.forEach(ele => {
-    if (ele.game == game && ele.capDiscordID == id)
+    if (ele.capDiscordID == id)
       returnValue = true;
   });
   return returnValue;
@@ -27,10 +27,10 @@ const isCap = (id, game, teams) => {
 
 exports.isCap = isCap;
 
-const isInTeam = (id, game, teams) => {
+const isInTeam = (id, teams) => {
   let returnValue = false;
   teams.forEach(ele => {
-    if (ele.game == game && ele.playerDiscordIds.includes(id))
+    if (ele.playerDiscordIds.includes(id))
       returnValue = true;
   });
   return returnValue;
