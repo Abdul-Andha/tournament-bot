@@ -3,11 +3,11 @@ const validGames = ["csgo", "lol", "valorant", "r6s", "overwatch", "rocketleague
 
 module.exports = {
   name: 'createTournament',
-  description: 'Only available to higher staff. Can create a tournament. Format: .newtourney [game] [limit] [name]', 
+  description: 'Only available to higher staff. Can create a tournament. Format: .newtourney [game] [minimum] [maximum] [name]', 
   execute(receivedMessage, args, TournamentModel) {
     Tournament = TournamentModel;
     
-    if (args.length < 3) {
+    if (args.length < 4) {
       receivedMessage.channel.send('Invalid arguments. Check the format again.');
       return receivedMessage.react('❌');
     }
@@ -18,9 +18,10 @@ module.exports = {
       return receivedMessage.react('❌');
     }
     
-    let limit = args[1];
+    let minimum = args[1];
+    let maximum = args[2];
     let name = "";
-    for (let i = 2; i < args.length - 1; i++) {
+    for (let i = 3; i < args.length - 1; i++) {
       name += args[i] + " ";
     }
     name += args[args.length - 1];
@@ -34,7 +35,8 @@ module.exports = {
           const tournament = new Tournament({
           name: name,
           game: game,
-          limit: limit, 
+          minPlayers: minimum, 
+          maxPlayers: maximum,
           teamIds: []
           });
     

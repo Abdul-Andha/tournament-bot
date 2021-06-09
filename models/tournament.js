@@ -10,7 +10,11 @@ const tournamentSchema = new Schema({
     type: String,
     required: true
   },
-  limit: {
+  minPlayers: {
+    type: Number,
+    required: true
+  },
+  maxPlayers: {
     type: Number,
     required: true
   },

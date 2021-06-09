@@ -62,14 +62,17 @@ function processCommand(receivedMessage) {
       bot.commands.get('disbandTeam').execute(receivedMessage, args, Team);
       
     else if ((mainCommand === "invite" || mainCommand === "i"))
-      bot.commands.get('invitePlayer').execute(receivedMessage, args, Player, Team);
+      bot.commands.get('invitePlayer').execute(receivedMessage, args, Team, Tournament);
+      
+    else if ((mainCommand === "acceptinvite" || mainCommand === "ai"))
+      bot.commands.get('acceptInvite').execute(receivedMessage, args, Team, Tournament);
     
     else if ( (mainCommand === "newtourney"|| mainCommand === "newtournament" || mainCommand === "nt") 
     && (helper.hasRole(receivedMessage.member, "Branch Directors") || helper.hasRole(receivedMessage.member, "Pro Manager")) )
       bot.commands.get('createTournament').execute(receivedMessage, args, Tournament);
     
     else if ((mainCommand === "signup" || mainCommand === "s"))
-      bot.commands.get('signupTeam').execute(receivedMessage, args, Team, Tournament);
+      bot.commands.get('signupTeam').execute(receivedMessage, args, Player, Team, Tournament);
         
     //else receivedMessage.channel.send("Unknown Command");
 }

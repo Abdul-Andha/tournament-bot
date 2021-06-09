@@ -30,7 +30,7 @@ exports.isCap = isCap;
 const isInTeam = (id, game, teams) => {
   let returnValue = false;
   teams.forEach(ele => {
-    if (ele.game == game && ele.playerIDs.includes(id))
+    if (ele.game == game && ele.playerDiscordIds.includes(id))
       returnValue = true;
   });
   return returnValue;

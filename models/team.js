@@ -14,16 +14,29 @@ const teamSchema = new Schema({
     type: String,
     required: true
   },
-  capDiscordID: {
+  capDiscordId: {
     type: String,
     required: true
   },
-  playerIDs: {
+  playerDiscordIds: {
     type: [String],
     default: undefined,
     required: true
   },
-  isInTourney: {
+  inviteeDiscordIds: {
+    type: [String],
+    default: undefined,
+    required: true
+  },
+  minPlayers: {
+    type: Number,
+    required: true
+  },
+  maxPlayers: {
+    type: Number,
+    required: true
+  },
+  pending: {
     type: Boolean,
     required: true
   }
