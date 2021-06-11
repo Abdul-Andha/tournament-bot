@@ -13,8 +13,8 @@ module.exports = {
       return receivedMessage.react('❌');
     }
     
-    let teamName = args[2];
-    let teamCode = args[3];
+    let teamName = args[1];
+    let teamCode = args[2];
     Player = PlayerModel;
     Team = TeamModel;
     Tournament = TournamentModel;

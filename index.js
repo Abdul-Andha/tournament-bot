@@ -68,7 +68,7 @@ function processCommand(receivedMessage) {
       bot.commands.get('acceptInvite').execute(receivedMessage, args, Team, Tournament);
     
     else if ( (mainCommand === "newtourney"|| mainCommand === "newtournament" || mainCommand === "nt") 
-    && (helper.hasRole(receivedMessage.member, "Branch Directors") || helper.hasRole(receivedMessage.member, "Pro Manager")) )
+    && (receivedMessage.member) && (helper.hasRole(receivedMessage.member, "Branch Directors") || helper.hasRole(receivedMessage.member, "Pro Manager")) )
       bot.commands.get('createTournament').execute(receivedMessage, args, Tournament);
     
     else if ((mainCommand === "signup" || mainCommand === "s"))
