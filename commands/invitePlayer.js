@@ -1,9 +1,9 @@
 const helper = require('./helperFunctions');
 let tourneyName;
-let teams = null; //teams in the tourney that the captain is referencing
+let teams; //teams in the tourney that the captain is referencing
 let receivedMessage; //users message that called the command
-let player = null; //the invitee
-let targetTeam = null;
+let player; //the invitee
+let targetTeam;
 let teamName;
 let captain;
 
@@ -20,9 +20,8 @@ module.exports = {
     teamName = args[1];
     captain = receivedMessage.author;
     
-    initialize(Team, Tournament).then(() => {
-      console.log(player, targetTeam, teams)
-      if (player && targetTeam && teams) {
+    initialize(Team, Tournament).then((res) => {
+      if (res) {
         if (helper.isInTeam(12, teams)) {
           receivedMessage.channel.send('The player you are trying to invite is in another team in this tournament.');
           receivedMessage.react('❌');
@@ -61,7 +60,7 @@ async function initialize(Team, Tournament) {
   
   let tournament = await Tournament.findOne({name: tourneyName});
   if (!tournament)
-    return;
+    return false;
     
   await Team.find({
     '_id': {$in: tournament.teamIds}
@@ -69,6 +68,6 @@ async function initialize(Team, Tournament) {
     teams = res;
   });
   
-  targetTeam = await teams.find(obj => obj.teamName == teamName);
-  console.log(targetTeam)
+  targetTeam = await teams.find(obj => obj.teamName == teamName && obj.capDiscordId == captain.id);
+  return player && teams && targetTeam;
 }

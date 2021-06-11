@@ -62,7 +62,7 @@ async function addPlayer() {
 //inits players and teams so they can be used later
 async function initialize(Team, Tournament) {
   tournament = await Tournament.findOne({name: tourneyName})
-  if (tournament == null) { return }
+  if (!tournament) { return }
   await Team.find({
     '_id': {$in: tournament.teamIds}
   }, function(err, res) {

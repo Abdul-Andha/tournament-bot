@@ -1,7 +1,6 @@
 const helper = require('./../commands/helperFunctions')
 
 const manageThresholds = (receivedMessage, team) => {
-	console.log(246); 
 	const min = team.minPlayers;
 	const max = team.maxPlayers;
 	let length = team.playerDiscordIds.length;
