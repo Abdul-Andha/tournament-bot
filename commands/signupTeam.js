@@ -6,8 +6,8 @@ let tournament; // the specific tourney the user is trying to sign up for
 
 module.exports = {
   name: 'signupTeam',
-  description: 'Format: .signup ["Tourney Name"] ["Team Name"] [teamCode] [@player] [@player] etc for all the players. Command for captains. User will be captain of the team and therefore, can not be captain of any other team in this tournament. Team of that name can not already be signed up for the tourney. Players can not be in another team in this tournament. Captain must include themselves in the @player if they want to be a player as well. Teams must have required number of players.',
-  execute(receivedMessage, args, PlayerModel, TeamModel, TournamentModel) {
+  description: 'Format: .signup ["Tourney Name"] [teamCode]. Command for captains. User will be captain of the team and therefore, can not be captain of any other team in this tournament. Team code will be used to get team name. Team of that name can not already be signed up for the tourney. Captain must invite themselves seperately if they want to be a player.',
+  execute(receivedMessage, args, TeamModel, TournamentModel, googleSheet) {
     if (args.length < 4) {
       receivedMessage.channel.send("Invalid format: Not enough arguments.");
       return receivedMessage.react('❌');
@@ -15,7 +15,6 @@ module.exports = {
     
     let teamName = args[1];
     let teamCode = args[2];
-    Player = PlayerModel;
     Team = TeamModel;
     Tournament = TournamentModel;
 
@@ -31,14 +30,12 @@ module.exports = {
             } else if (helper.isCap(receivedMessage.author.id, teams)) {
               receivedMessage.channel.send("You are already a captain for another team in this tournament.");
               receivedMessage.react('❌');
-            } else if (!arePlayersUnique(receivedMessage.mentions.users.array())) {
-              receivedMessage.channel.react('❌');
             } else {
               createTeam(receivedMessage, teamName, args[1])
               .then((res) => {
                 signUpTeam(res)
                 .then((res) => {
-                  receivedMessage.channel.send("Players have been invited. To confirm sign up, the players must accept invite using the command `.acceptinvite [tournament name][team name]`");
+                  receivedMessage.channel.send("Success! To confirm sign up, invite players using `.invite <Tournament Name> <TeamName>`.");
                   receivedMessage.react('✅');
                 })
               })
@@ -75,20 +72,6 @@ function nameTaken(teamName) {
 //   return returnValue;
 // }
 
-function arePlayersUnique(mentioned) {
-  let returnValue = true;
-  teams.forEach(team => {
-    team.playerDiscordIds.forEach(id => {
-      mentioned.forEach(id => {
-        if (mentioned.id == id) {
-          returnValue = false;
-        }
-      });
-    });
-  });
-  return returnValue;
-}
-
 async function signUpTeam(team) {
   tournament.teamIds.push(team._id);
   await tournament.save()
@@ -99,19 +82,13 @@ async function signUpTeam(team) {
 
 async function createTeam(receivedMessage, name) {
   let captain = receivedMessage.author;
-  let mentioned = receivedMessage.mentions.users.array();
-  let mentionedIds = [];
-  
-  mentioned.forEach(user => {
-    mentionedIds.push(user.id);
-  });
   
   const team = new Team({
     teamName: name,
     capName: captain.username,
     capDiscordId: captain.id,
     playerDiscordIds: [],
-    inviteeDiscordIds: mentionedIds,
+    inviteeDiscordIds: [],
     maxPlayers: tournament.maxPlayers,
     minPlayers: tournament.minPlayers,
     pending: true

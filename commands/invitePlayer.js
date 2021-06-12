@@ -2,7 +2,7 @@ const helper = require('./helperFunctions');
 let tourneyName;
 let teams; //teams in the tourney that the captain is referencing
 let receivedMessage; //users message that called the command
-let player; //the invitee
+let players; //the invitee
 let targetTeam;
 let teamName;
 let captain;
@@ -19,25 +19,40 @@ module.exports = {
     tourneyName = args[0];
     teamName = args[1];
     captain = receivedMessage.author;
-    
+
     initialize(Team, Tournament).then((res) => {
       if (res) {
-        if (helper.isInTeam(12, teams)) {
-          receivedMessage.channel.send('The player you are trying to invite is in another team in this tournament.');
-          receivedMessage.react('❌');
-        } else if (targetTeam.playerDiscordIds.length >= targetTeam.maxPlayers) {
-          receivedMessage.channel.send('Your team is full.');
-          receivedMessage.react('❌');
-        } else {
-          invitePlayer(player, targetTeam).then(() => {
-            receivedMessage.channel.send(player.username + " has been invited. To accept, they have to run `.acceptinvite [\"tourneyName\"] [\"teamName\"]` ");
-            receivedMessage.react('✅');
-          }).catch(err => {
-            helper.handleError(err, receivedMessage, 52);
-          })
+        let rejected = [];
+        let invited = [];
+        for (player of players) {
+          if (helper.isInTeam(player.id, teams)) {
+            rejected.push(player.username);
+          } else if (targetTeam.playerDiscordIds.length >= targetTeam.maxPlayers) {
+            receivedMessage.channel.send('Your team is full.');
+            receivedMessage.react('❌');
+            break;
+          } else {
+            targetTeam.inviteeDiscordIds.push(player.id);
+            invited.push(player.username);
+          }
         }
+        targetTeam.save().then(() => {
+          let returnMsg = "";
+
+          invited.forEach(name => {
+            returnMsg += "`" + name + "` has been invited to `" + targetTeam.teamName + "`! \n"
+          })
+          rejected.forEach(name => {
+            returnMsg += "`" + name + "` is in another team for this tournament. \n"
+          })
+
+          receivedMessage.channel.send(returnMsg);
+          receivedMessage.react('✅');
+        }).catch((err) => {
+          helper.handleError(err, receivedMessage, 51);
+        });
       } else {
-        receivedMessage.channel.send('Check your arguments. Make sure the tournament name and team name are accurate. Make sure you @ the player.');
+        receivedMessage.channel.send('Check your arguments. Make sure the tournament name and team name are accurate. Make sure you @ the players.');
         receivedMessage.react('❌');
       }
     }).catch(err => {
@@ -46,28 +61,22 @@ module.exports = {
   }
 }
 
-async function invitePlayer(player, team) {
-  team.inviteeDiscordIds.push(player.id);
-  await team.save()
-    .catch((err) => {
-      helper.handleError(err, receivedMessage, 51);
-    });
-}
-
 //inits players and teams so they can be used later
 async function initialize(Team, Tournament) {
-  player = receivedMessage.mentions.users.first();
-  
-  let tournament = await Tournament.findOne({name: tourneyName});
+  players = receivedMessage.mentions.users.array();
+
+  let tournament = await Tournament.findOne({
+    name: tourneyName
+  });
   if (!tournament)
     return false;
-    
-  await Team.find({
-    '_id': {$in: tournament.teamIds}
-  }, function(err, res) {
-    teams = res;
+
+  teams = await Team.find({
+    '_id': {
+      $in: tournament.teamIds
+    }
   });
-  
+
   targetTeam = await teams.find(obj => obj.teamName == teamName && obj.capDiscordId == captain.id);
-  return player && teams && targetTeam;
+  return players.length > 0 && teams && targetTeam;
 }

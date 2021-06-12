@@ -1,0 +1,12 @@
+{
+  "type": "service_account",
+  "project_id": "mesa-tournament-bot",
+  "private_key_id": "2f0f64c0949fd4f47bd22537ee0f69d9ba9138a6",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQCl5n746eECssTA\nE7VzfQBCrl+gWpF75npiiWKdEpOMBYHqVlhc9c3GoFNmA46EAFoKqX5NI6//LnDT\nVjVGKZsNKyZQF19cHa8uFCJRfngnbtqHO6DaD5uwhOYYrpmQJMKtCusyYUc1HXNm\nYtiHx3K413ZuWSAY8fHSb5TBbm+Z1cM2Zf3T5qwtl7TTv2zIoPvOifz9rGl2duKR\na4QzmDfF/3uv0643IeS4JZWAn/WOGa8S+bcJjkEcYOjMYI7uTMGWC5QBTXjhwtlM\n+QhxoriKGgo5XP40gAj6Pgnn5k/PWGxV+3gYUVBNvhVHSU4DEQD8KiGGJ7c8DS3x\n5frmPLVHAgMBAAECggEAHHbeTT3vneNnT59yEBUf8NDzVlODx7LlR7fTxCh2SV1+\ni2LyOUzxWAWVGZk9oBdhW5f2NC0N2uYwdIpDjLzBvjIrmi1QbsEnF+xbcQkWe4mR\nFAfektt/tnsu8Ygvj+RGxKLtdNDtA0eAz83g4fcOD3nkd41yLOWCPL1pVADrRAT6\ntc4Y/wJ+K2fbuzA6sCfXhtfbDUl69l17yH7o56zKP5vJxVF3ko9lOaeEkuTjkXRB\nnfSbPPW/CKrYY+3sPpvj9N4DyY/lKYBpqwBBMUrWzs9BDYS8wR2sC0jDJx2+FjUa\nJF4iQf7ZCVbfxniUZiwfqAdac6VDsLpJbz+nvQdnqQKBgQDirvNS6Qtzc8nTVytv\nsa7qs8k0jZsxIyiGM8H4hRHt4unkvqJS9NAvFhdX6pjv3oAsUvki5w7sN23mEdes\nW/UbywdsKUiw0Mthw3TZCKQ4NnqIt4H5ZqVPIoFghAUmmkCBXNjuM5lp6/88PjCe\nNnt0NPGg0eyz5ZTd+ieokwJmmQKBgQC7WyMOnDtZjsNe8P8V/77iFksgiqWKD7Of\npz1lDl4s6zMnp/spsgNloTgXiJWlHPx26vsNpoKn26yxxoOlDirUdXiXo0xa2G9u\noEAqUhn9YXPR2ya5IYj3lkOuUmiSlYpKLDp8gPDiW/b84pzWwjO5sYMwdn5lEF8y\ncESrCAPG3wKBgQDZWteFkF+ifEvxkYvctYr7ERjEg2NjYkrhI4/CNBZU+1c6NnB/\nCq7z90K60f+DQN21onmwtczhQuTlzgX3BtWnqK2dUJiashnRzBCmalrMa7Bil1LR\nSVMI5hUX7n7h3NYtNFHtVRytK9S4dwk3KxaE/p8RjThh5qkvj0Wnpg6PQQKBgCQZ\nx4OFLxpum86reTtv8AP4b7lxfbxAkkftHbNfNV5KY6z8fTTnjCgFDJ3cP5l1IGB5\nnq5eq0ZU2c3Xhn5DYJVXnUj6uje3BKG4VyTQdRmRsZN6OtfpUk8CsT/huSyli+QG\n6a4b2k6Dke/gaoAnI3hgb/rimjA3G2DIqTKbdL7ZAoGBAIvT3qUgR3BrV7FVSolO\n0z52VlhIKPqGQvu3DzWC/kVuGi8CoAtaHDfYPPX25nNj5pvtyQAx4Si6kQTsdU5w\nN8LRpWGkIYqFJXVT/YNnnE+OhJteE61FyI531RQjcr96R2Gn/8q544Sz9d72ereX\nDfJ//oh8uQ1PMdSa2r0LKUTV\n-----END PRIVATE KEY-----\n",
+  "client_email": "mesatourneybot@mesa-tournament-bot.iam.gserviceaccount.com",
+  "client_id": "107761933158808787090",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/mesatourneybot%40mesa-tournament-bot.iam.gserviceaccount.com"
+}
