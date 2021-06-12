@@ -45,10 +45,41 @@ bot.on(`message`, (receivedMessage) => {
 })
 
 function processCommand(receivedMessage) {
-    let fullCommand = receivedMessage.content.substr(1);
-    let splitCommand = fullCommand.split(" ");
+    let fullCommand = receivedMessage.content.substr(1); //removes prefix
+    
+    //turns command into array split on spaces
+    //also checks for <> and treats everything inside a set of <>
+    //a one argument for the command
+    let splitCommand = [];
+    let indicatorFound = false;
+    let tempArg = "";
+    for (let i = 0; i < fullCommand.length; i++) {
+      if (fullCommand[i] == " " && !indicatorFound) {
+        splitCommand.push(tempArg);
+        tempArg = "";
+      } else if (fullCommand[i] == "<" && !indicatorFound) {
+        indicatorFound = true;
+        if (tempArg != "") {
+          splitCommand.push(tempArg);
+          tempArg = "";
+        }
+      } else if (fullCommand[i] == ">" && indicatorFound) {
+        indicatorFound = false;
+      }
+      else {
+        tempArg += fullCommand[i];
+      }
+    }
+    if (tempArg != "") {
+      splitCommand.push(tempArg);
+      tempArg = "";
+    }
+    
+    //get mainCommand and args from split command
     let mainCommand = splitCommand[0].toLowerCase();
     let args = splitCommand.slice(1);
+    
+    //checks mainCommand to determine what command to execute
     if (mainCommand === 'register')
       bot.commands.get('registerPlayer').execute(receivedMessage, Player);
       
