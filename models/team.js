@@ -6,6 +6,10 @@ const teamSchema = new Schema({
     type: String,
     required: true
   },
+  teamCode: {
+    type: String,
+    required: true
+  },
   capName: {
     type: String,
     required: true

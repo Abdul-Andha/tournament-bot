@@ -3,44 +3,51 @@ const helper = require('./helperFunctions');
 let Team;
 let teams = []; //teams in this tourney
 let tournament; // the specific tourney the user is trying to sign up for
+let targetRow; //the row in sheet that stores the info of the target team. undefined if team code isnt found
 
 module.exports = {
   name: 'signupTeam',
   description: 'Format: .signup ["Tourney Name"] [teamCode]. Command for captains. User will be captain of the team and therefore, can not be captain of any other team in this tournament. Team code will be used to get team name. Team of that name can not already be signed up for the tourney. Captain must invite themselves seperately if they want to be a player.',
   execute(receivedMessage, args, TeamModel, TournamentModel, googleSheet) {
-    if (args.length < 4) {
+    if (args.length != 2) {
       receivedMessage.channel.send("Invalid format: Not enough arguments.");
       return receivedMessage.react('❌');
     }
     
-    let teamName = args[1];
-    let teamCode = args[2];
+    let tourneyName = args[0];
+    let teamCode = args[1];
+    let teamName = "test";
     Team = TeamModel;
     Tournament = TournamentModel;
 
-    Tournament.findOne({name: args[0]})
+    Tournament.findOne({name: tourneyName})
       .then((res) => {
         if (res) {
           tournament = res;
           initialize()
-          .then((res) => {
-            if (nameTaken(teamName)) {
-              receivedMessage.channel.send("A team of that name already exists in this tournament.");
-              receivedMessage.react('❌');
-            } else if (helper.isCap(receivedMessage.author.id, teams)) {
-              receivedMessage.channel.send("You are already a captain for another team in this tournament.");
-              receivedMessage.react('❌');
-            } else {
-              createTeam(receivedMessage, teamName, args[1])
-              .then((res) => {
-                signUpTeam(res)
+          .then(() => {
+            findTeam(teamCode, googleSheet).then(res => {
+              if (!res) {
+                receivedMessage.channel.send("That team code does not exist.");
+                receivedMessage.react('❌');
+              } else if (codeTaken(teamCode)) {
+                receivedMessage.channel.send("That team code is already signed up for this tournament.");
+                receivedMessage.react('❌');
+              } else if (helper.isCap(receivedMessage.author.id, teams)) {
+                receivedMessage.channel.send("You are already a captain for another team in this tournament.");
+                receivedMessage.react('❌');
+              } else {
+                createTeam(receivedMessage, teamName, args[1])
                 .then((res) => {
-                  receivedMessage.channel.send("Success! To confirm sign up, invite players using `.invite <Tournament Name> <TeamName>`.");
-                  receivedMessage.react('✅');
+                  signUpTeam(res)
+                  .then((res) => {
+                    receivedMessage.channel.send("Success! To confirm sign up, invite players using `.invite <Tournament Name> <TeamName>`.");
+                    receivedMessage.react('✅');
+                  })
                 })
-              })
-            }
-          })
+              }
+            }).catch(err => {helper.handleError(err, receivedMessage, 63)});
+          }).catch(err => {helper.handleError(err, receivedMessage, 64)});
         } else {
           receivedMessage.channel.send("Tournament not found. Try again.");
           receivedMessage.react('❌');
@@ -52,25 +59,26 @@ module.exports = {
   }
 }
 
-function nameTaken(teamName) {
+function codeTaken(code) {
   let returnValue = false;
   teams.forEach(team => {
-    if (team.teamName == teamName) {
+    if (team.teamCode == code) {
       returnValue = true;
     }
   });
   return returnValue;
 }
 
-// function isCap(capId) {
-//   let returnValue = false;
-//   teams.forEach(team => {
-//     if (team.capDiscordId == capId) {
-//       returnValue = true;
-//     }
-//   });
-//   return returnValue;
-// }
+async function findTeam(code, sheet) {
+  let rows = await sheet.getRows();
+  await sheet.loadCells(`A2:F${rows.length + 1}`);
+  for (let i = 1; i < rows.length + 1; i++) {
+    if (code === sheet.getCell(i, 5).value)
+     targetRow = rows[i - 1];
+  }
+  console.log(targetRow);
+  return targetRow;
+}
 
 async function signUpTeam(team) {
   tournament.teamIds.push(team._id);
@@ -80,11 +88,12 @@ async function signUpTeam(team) {
     });
 }
 
-async function createTeam(receivedMessage, name) {
+async function createTeam(receivedMessage, name, code) {
   let captain = receivedMessage.author;
   
   const team = new Team({
-    teamName: name,
+    teamName: targetRow["Team Name"].trim(),
+    teamCode: code,
     capName: captain.username,
     capDiscordId: captain.id,
     playerDiscordIds: [],
