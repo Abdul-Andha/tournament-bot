@@ -32,7 +32,7 @@ module.exports = {
 				receivedMessage.react('❌');
 			}
 		}).catch(err => {
-			helper.handleError(err, receivedMessage, 100);
+			helper.handleError(err, receivedMessage, 110);
 		});
 	}
 }
