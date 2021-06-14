@@ -121,6 +121,9 @@ function processCommand(receivedMessage) {
     
     else if ((mainCommand === "signup" || mainCommand === "s"))
       bot.commands.get('signupTeam').execute(receivedMessage, args, Team, Tournament, teamSheet);
+
+    else if ((mainCommand === "remove" || mainCommand === "r"))
+      bot.commands.get('removePlayer').execute(receivedMessage, args, Team, Tournament, teamSheet);
         
     //else receivedMessage.channel.send("Unknown Command");
 }
