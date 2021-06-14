@@ -6,6 +6,7 @@ let players; //the invitee
 let targetTeam;
 let teamName;
 let captain;
+let tournament;
 
 module.exports = {
   name: 'invitePlayer',
@@ -22,35 +23,40 @@ module.exports = {
 
     initialize(Team, Tournament).then((res) => {
       if (res) {
-        let rejected = [];
-        let invited = [];
-        for (player of players) {
-          if (helper.isInTeam(player.id, teams)) {
-            rejected.push(player.username);
-          } else if (targetTeam.playerDiscordIds.length >= targetTeam.maxPlayers) {
-            receivedMessage.channel.send('Your team is full.');
-            receivedMessage.react('❌');
-            break;
-          } else {
-            targetTeam.inviteeDiscordIds.push(player.id);
-            invited.push(player.username);
+        if (!tournament.rosterChanges) {
+          receivedMessage.channel.send("Roster changes are not allowed for " + "`" + tournament.name + "` at this time.");
+          receivedMessage.react('❌');
+        } else {
+          let rejected = [];
+          let invited = [];
+          for (player of players) {
+            if (helper.isInTeam(player.id, teams)) {
+              rejected.push(player.username);
+            } else if (targetTeam.playerDiscordIds.length >= targetTeam.maxPlayers) {
+              receivedMessage.channel.send('Your team is full.');
+              receivedMessage.react('❌');
+              break;
+            } else {
+              targetTeam.inviteeDiscordIds.push(player.id);
+              invited.push(player.username);
+            }
           }
+          targetTeam.save().then(() => {
+            let returnMsg = "";
+
+            invited.forEach(name => {
+              returnMsg += "`" + name + "` has been invited to `" + targetTeam.teamName + "`! \n"
+            })
+            rejected.forEach(name => {
+              returnMsg += "`" + name + "` is in another team for this tournament. \n"
+            })
+
+            receivedMessage.channel.send(returnMsg);
+            receivedMessage.react('✅');
+          }).catch((err) => {
+            helper.handleError(err, receivedMessage, 51);
+          });
         }
-        targetTeam.save().then(() => {
-          let returnMsg = "";
-
-          invited.forEach(name => {
-            returnMsg += "`" + name + "` has been invited to `" + targetTeam.teamName + "`! \n"
-          })
-          rejected.forEach(name => {
-            returnMsg += "`" + name + "` is in another team for this tournament. \n"
-          })
-
-          receivedMessage.channel.send(returnMsg);
-          receivedMessage.react('✅');
-        }).catch((err) => {
-          helper.handleError(err, receivedMessage, 51);
-        });
       } else {
         receivedMessage.channel.send('Check your arguments. Make sure the tournament name and team name are accurate. Make sure you @ the players.');
         receivedMessage.react('❌');
@@ -65,7 +71,7 @@ module.exports = {
 async function initialize(Team, Tournament) {
   players = receivedMessage.mentions.users.array();
 
-  let tournament = await Tournament.findOne({
+  tournament = await Tournament.findOne({
     name: tourneyName
   });
   if (!tournament)

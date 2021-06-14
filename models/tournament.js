@@ -22,6 +22,10 @@ const tournamentSchema = new Schema({
     type: [String],
     default: undefined,
     required: true
+  },
+  rosterChanges: {
+    type: Boolean,
+    required: true
   }
   
 }, { timestamps: true });

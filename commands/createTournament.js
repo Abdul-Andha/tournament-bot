@@ -7,7 +7,7 @@ module.exports = {
   execute(receivedMessage, args, TournamentModel) {
     Tournament = TournamentModel;
     
-    if (args.length < 4) {
+    if (args.length != 4) {
       receivedMessage.channel.send('Invalid arguments. Check the format again.');
       return receivedMessage.react('❌');
     }
@@ -20,11 +20,7 @@ module.exports = {
     
     let minimum = args[1];
     let maximum = args[2];
-    let name = "";
-    for (let i = 3; i < args.length - 1; i++) {
-      name += args[i] + " ";
-    }
-    name += args[args.length - 1];
+    let name = args[3];
     
     tourneyExists(name)
       .then((res) => {
@@ -37,7 +33,8 @@ module.exports = {
           game: game,
           minPlayers: minimum, 
           maxPlayers: maximum,
-          teamIds: []
+          teamIds: [],
+          rosterChanges: true
           });
     
           tournament.save()

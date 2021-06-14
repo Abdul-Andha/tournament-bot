@@ -115,6 +115,10 @@ function processCommand(receivedMessage) {
     && (receivedMessage.member) && (helper.hasRole(receivedMessage.member, "Branch Directors") || helper.hasRole(receivedMessage.member, "Pro Manager")) )
       bot.commands.get('createTournament').execute(receivedMessage, args, Tournament);
     
+    else if ( (mainCommand === "rosterchange"|| mainCommand === "rc") 
+    && (receivedMessage.member) && (helper.hasRole(receivedMessage.member, "Branch Directors") || helper.hasRole(receivedMessage.member, "Pro Manager")) )
+      bot.commands.get('rosterChange').execute(receivedMessage, args, Team, Tournament);
+    
     else if ((mainCommand === "signup" || mainCommand === "s"))
       bot.commands.get('signupTeam').execute(receivedMessage, args, Team, Tournament, teamSheet);
         

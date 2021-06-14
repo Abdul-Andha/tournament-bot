@@ -41,7 +41,7 @@ module.exports = {
                 .then((res) => {
                   signUpTeam(res)
                   .then((res) => {
-                    receivedMessage.channel.send("Success! To confirm sign up, invite players using `.invite <Tournament Name> <TeamName>`.");
+                    receivedMessage.channel.send("Success! To confirm sign up, invite players using `.invite <Tournament Name> <Team Name>`.");
                     receivedMessage.react('✅');
                   })
                 })
@@ -76,7 +76,6 @@ async function findTeam(code, sheet) {
     if (code === sheet.getCell(i, 5).value)
      targetRow = rows[i - 1];
   }
-  console.log(targetRow);
   return targetRow;
 }
 
