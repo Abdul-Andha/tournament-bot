@@ -24,22 +24,21 @@ module.exports = {
 			if (res) {
 				returnMsg += "`Team Name:` " + targetTeam.teamName + "\n";
 				returnMsg += "`Minimum Number of Players:` " + targetTeam.minPlayers + "\n";
-				returnMsg += "`Maximum Number of Players:` " + targetTeam.maxPlayers + "\n";
+				returnMsg += "`Maximum Number of Players:` " + targetTeam.maxPlayers + "\n \n";
 				getRoster().then(res => {
-					//add .thens bc async
-				})
-				returnMsg += getRoster() + "\n";
-				returnMsg += getInvitees() + "\n";
-				returnMsg += getEligiblity();
-				receivedMessage.channel.send(returnMsg);
-				receivedMessage.react('✅');
+					returnMsg += res + "\n";
+					getInvitees().then(res => {
+						returnMsg += res + "\n";
+						returnMsg += getEligiblity();
+						receivedMessage.channel.send(returnMsg);
+						receivedMessage.react('✅');
+					}).catch(err => helper.handleError(err, receivedMessage, 122));
+				}).catch(err => helper.handleError(err, receivedMessage, 121));
 			} else {
 				receivedMessage.channel.send('Check your arguments. Make sure the tournament name and team name are accurate.');
 				receivedMessage.react('❌');
 			}
-		}).catch(err => {
-			helper.handleError(err, receivedMessage, 120);
-		});
+		}).catch(err => helper.handleError(err, receivedMessage, 120));
 	}
 }
 
@@ -91,11 +90,11 @@ function getEligiblity() {
 	let min = targetTeam.minPlayers;
 	let max = targetTeam.maxPlayers;
 	if (length < min) {
-		returnMsg += "You need atleast `" + min - length + "` more players to be eligible for `" + tourneyName + "`."
+		returnMsg += "You need atleast `" + (min - length) + "` more players to be eligible for `" + tourneyName + "`."
 	} else if (length == max) {
 		returnMsg += "Your team is full."
 	} else {
-		returnMsg += "Your team is eligible for `" + tourneyName + "`. However, you can still invite `" + max - length + "` more players."
+		returnMsg += "Your team is eligible for `" + tourneyName + "`. However, you can still invite `" + (max - length) + "` more players."
 	}
 	return returnMsg;
 }
