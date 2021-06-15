@@ -123,10 +123,13 @@ function processCommand(receivedMessage) {
       bot.commands.get('signupTeam').execute(receivedMessage, args, Team, Tournament, teamSheet);
 
     else if ((mainCommand === "remove" || mainCommand === "rp"))
-      bot.commands.get('removePlayer').execute(receivedMessage, args, Team, Tournament, teamSheet);
+      bot.commands.get('removePlayer').execute(receivedMessage, args, Team, Tournament);
 
     else if ((mainCommand === "roster" || mainCommand === "r"))
-      bot.commands.get('showRoster').execute(receivedMessage, args, Team, Tournament, teamSheet);
+      bot.commands.get('showRoster').execute(receivedMessage, args, Team, Tournament);
+    
+    else if ((mainCommand === "getinfo" || mainCommand === "gi"))
+      bot.commands.get('getTeamInfo').execute(bot, receivedMessage, args, Team, Tournament);
         
     //else receivedMessage.channel.send("Unknown Command");
 }

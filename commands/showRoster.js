@@ -59,9 +59,9 @@ function findPlayers() {
 	foundPlayers = [];
 	notFound = 0;
 	for (playerId of targetTeam.playerDiscordIds) {
-		let player = receivedMessage.guild.members.cache.get(playerId).user;
+		let player = receivedMessage.guild.members.cache.get(playerId);
 		if (player)
-			foundPlayers.push(player.username);
+			foundPlayers.push(player.user.username);
 		else
 			notFound++;
 	}
@@ -72,10 +72,12 @@ function sendResults() {
 	for (username of foundPlayers) {
 		returnMsg += "`" + username + "` \n"
 	}
-	if (notFound > 0) {
-		returnMsg += "\n *There are " + notFound + " players who are on the roster but not in this server. They must join the server in order to be eligible to play.*"
+	if (notFound == 1) {
+		returnMsg += "\n*There is " + notFound + " player who is on the roster but not in this server. They must join the server in order to be eligible to play.*";
+	} else if (notFound > 0) {
+		returnMsg += "\n*There is " + notFound + " player who is on the roster but not in this server. They must join the server in order to be eligible to play.*";
 	}
-
+	
 	receivedMessage.channel.send(returnMsg);
 	receivedMessage.react('✅');
 }
