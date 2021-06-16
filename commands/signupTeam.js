@@ -33,7 +33,7 @@ module.exports = {
               } else if (codeTaken(teamCode)) {
                 receivedMessage.channel.send("That team code is already signed up for this tournament.");
                 receivedMessage.react('❌');
-              } else if (helper.isCap(receivedMessage.author.id, teams)) {
+              } else if (helper.isCap(12, teams)) { //12 = receivedMessage.author.id
                 receivedMessage.channel.send("You are already a captain for another team in this tournament.");
                 receivedMessage.react('❌');
               } else {

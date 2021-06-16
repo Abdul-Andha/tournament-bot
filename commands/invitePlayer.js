@@ -30,7 +30,7 @@ module.exports = {
           let rejected = [];
           let invited = [];
           for (player of players) {
-            if (helper.isInTeam(player.id, teams)) {
+            if (helper.isInTeam(12, teams)) { //12 = player.id
               rejected.push(player.username);
             } else if (targetTeam.playerDiscordIds.length >= targetTeam.maxPlayers) {
               receivedMessage.channel.send('Your team is full.');
