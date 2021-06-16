@@ -34,7 +34,8 @@ module.exports = {
           minPlayers: minimum, 
           maxPlayers: maximum,
           teamIds: [],
-          rosterChanges: true
+          rosterChanges: true,
+          bracket: [[]]
           });
     
           tournament.save()

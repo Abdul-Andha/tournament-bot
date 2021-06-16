@@ -26,6 +26,10 @@ const tournamentSchema = new Schema({
   rosterChanges: {
     type: Boolean,
     required: true
+  },
+  bracket: {
+    type: Schema.Types.Mixed,
+    required: true
   }
   
 }, { timestamps: true });

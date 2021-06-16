@@ -130,6 +130,15 @@ function processCommand(receivedMessage) {
     
     else if ((mainCommand === "getinfo" || mainCommand === "gi"))
       bot.commands.get('getTeamInfo').execute(bot, receivedMessage, args, Team, Tournament);
+      
+    else if ( (mainCommand === "gettourneyinfo"|| mainCommand === "gti") 
+    && (receivedMessage.member) && (helper.hasRole(receivedMessage.member, "Branch Directors") || helper.hasRole(receivedMessage.member, "Pro Manager")) )
+      bot.commands.get('getTourneyInfo').execute(receivedMessage, args, Team, Tournament);
+      
+    else if ( (mainCommand === "createbracket"|| mainCommand === "cb") 
+    && (receivedMessage.member) && (helper.hasRole(receivedMessage.member, "Branch Directors") || helper.hasRole(receivedMessage.member, "Pro Manager")) )
+      bot.commands.get('createBracket').execute(receivedMessage, args, Team, Tournament);
+        
         
     //else receivedMessage.channel.send("Unknown Command");
 }
