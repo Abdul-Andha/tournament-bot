@@ -27,8 +27,13 @@ module.exports = {
         } else {
           bracketSize = getBracketSize();
           numByes = bracketSize - teams.length;
-          getNumRounds();
+          setNumRounds();
           initBracket();
+          tournament.bracket = bracket;
+          tournament.save().then(() => {
+            receivedMessage.channel.send("Bracket successfully created!");
+            receivedMessage.react('✅');
+          }).catch(err => helper.handleError(err, receivedMessage, 141));
         }
       } else {
         receivedMessage.channel.send('Check your argument. Make sure the tournament name is accurate.');
@@ -66,12 +71,38 @@ function getBracketSize() {
   return size;
 }
 
-function getNumRounds() {
-  let numRounds = 0;
+function setNumRounds() {
+  numRounds = 0;
   let temp = bracketSize;
   while (temp >= 1) {
     temp /= 2;
     numRounds++;
   }
-  console.log(numRounds);
+}
+
+function initBracket() {
+  bracket = [];
+  for (let i = 0; i < numRounds; i++) {
+    bracket[i] = [];  
+  }
+  
+  let numByesLeft = numByes;
+  let remainingTeams = teams;
+  let roundSize = bracketSize;
+  
+  for (let roundNum = 0; roundNum < 5; roundNum++) {
+    for (let teamNum = 0; teamNum < roundSize; teamNum++) {
+      if (remainingTeams.length == 0) {
+        bracket[roundNum][teamNum] = "TBD";
+      } else if (numByesLeft > 0 && bracket[roundNum][teamNum - 1] != "Bye") {
+        bracket[roundNum][teamNum] = "Bye";
+        numByesLeft--;
+      } else {
+        let idx = Math.floor(Math.random() * remainingTeams.length)
+        bracket[roundNum][teamNum] = remainingTeams[idx].teamName;
+        remainingTeams.splice(idx, 1);
+      }
+    }
+    roundSize /= 2;
+  }
 }
