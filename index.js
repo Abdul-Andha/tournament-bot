@@ -147,8 +147,7 @@ function processCommand(receivedMessage) {
     && (receivedMessage.member) && (helper.hasRole(receivedMessage.member, "Branch Directors") || helper.hasRole(receivedMessage.member, "Pro Manager")) )
       bot.commands.get('updateBracket').execute(receivedMessage, args, Tournament);
       
-    else if ((mainCommand === "nextmatch" || mainCommand === "nm"))
-      bot.commands.get('showNextMatch').execute(bot, receivedMessage, args, Team, Tournament);
+    
         
         
     //else receivedMessage.channel.send("Unknown Command");
