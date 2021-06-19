@@ -27,13 +27,16 @@ module.exports = {
           initialize()
           .then(() => {
             findTeam(teamCode, googleSheet).then(res => {
-              if (!res) {
+              if (!tournament.signups) {
+                receivedMessage.channel.send("That tournament is not accepting teams at this time.");
+                receivedMessage.react('❌');
+              } else if (!res) {
                 receivedMessage.channel.send("That team code does not exist.");
                 receivedMessage.react('❌');
               } else if (codeTaken(teamCode)) {
                 receivedMessage.channel.send("That team code is already signed up for this tournament.");
                 receivedMessage.react('❌');
-              } else if (helper.isCap(12, teams)) { //12 = receivedMessage.author.id
+              } else if (helper.isCap(receivedMessage.author.id, teams)) {
                 receivedMessage.channel.send("You are already a captain for another team in this tournament.");
                 receivedMessage.react('❌');
               } else {

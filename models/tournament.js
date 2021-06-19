@@ -27,6 +27,10 @@ const tournamentSchema = new Schema({
     type: Boolean,
     required: true
   },
+  signups: {
+    type: Boolean,
+    required: true
+  },
   bracket: {
     type: Schema.Types.Mixed,
     required: true

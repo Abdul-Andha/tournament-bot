@@ -35,6 +35,7 @@ module.exports = {
           maxPlayers: maximum,
           teamIds: [],
           rosterChanges: true,
+          signups: false,
           bracket: [[]]
           });
     

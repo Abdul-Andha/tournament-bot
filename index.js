@@ -118,6 +118,10 @@ function processCommand(receivedMessage) {
     else if ( (mainCommand === "rosterchange"|| mainCommand === "rc") 
     && (receivedMessage.member) && (helper.hasRole(receivedMessage.member, "Branch Directors") || helper.hasRole(receivedMessage.member, "Pro Manager")) )
       bot.commands.get('rosterChange').execute(receivedMessage, args, Team, Tournament);
+      
+    else if ( (mainCommand === "setsignups"|| mainCommand === "ss") 
+    && (receivedMessage.member) && (helper.hasRole(receivedMessage.member, "Branch Directors") || helper.hasRole(receivedMessage.member, "Pro Manager")) )
+      bot.commands.get('updateSignups').execute(receivedMessage, args, Tournament);
     
     else if ((mainCommand === "signup" || mainCommand === "s"))
       bot.commands.get('signupTeam').execute(receivedMessage, args, Team, Tournament, teamSheet);
@@ -138,6 +142,13 @@ function processCommand(receivedMessage) {
     else if ( (mainCommand === "createbracket"|| mainCommand === "cb") 
     && (receivedMessage.member) && (helper.hasRole(receivedMessage.member, "Branch Directors") || helper.hasRole(receivedMessage.member, "Pro Manager")) )
       bot.commands.get('createBracket').execute(receivedMessage, args, Team, Tournament);
+      
+    else if ( (mainCommand === "reportwinner"|| mainCommand === "rw") 
+    && (receivedMessage.member) && (helper.hasRole(receivedMessage.member, "Branch Directors") || helper.hasRole(receivedMessage.member, "Pro Manager")) )
+      bot.commands.get('updateBracket').execute(receivedMessage, args, Tournament);
+      
+    else if ((mainCommand === "nextmatch" || mainCommand === "nm"))
+      bot.commands.get('showNextMatch').execute(bot, receivedMessage, args, Team, Tournament);
         
         
     //else receivedMessage.channel.send("Unknown Command");
