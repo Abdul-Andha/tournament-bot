@@ -135,8 +135,7 @@ function processCommand(receivedMessage) {
     else if ((mainCommand === "getinfo" || mainCommand === "gi"))
       bot.commands.get('getTeamInfo').execute(bot, receivedMessage, args, Team, Tournament);
       
-    else if ( (mainCommand === "gettourneyinfo"|| mainCommand === "gti") 
-    && (receivedMessage.member) && (helper.hasRole(receivedMessage.member, "Branch Directors") || helper.hasRole(receivedMessage.member, "Pro Manager")) )
+    else if ((mainCommand === "gettourneyinfo"|| mainCommand === "gti"))
       bot.commands.get('getTourneyInfo').execute(receivedMessage, args, Team, Tournament);
       
     else if ( (mainCommand === "createbracket"|| mainCommand === "cb") 
@@ -147,9 +146,8 @@ function processCommand(receivedMessage) {
     && (receivedMessage.member) && (helper.hasRole(receivedMessage.member, "Branch Directors") || helper.hasRole(receivedMessage.member, "Pro Manager")) )
       bot.commands.get('updateBracket').execute(receivedMessage, args, Tournament);
       
-    
-        
-        
+    else if (mainCommand === "help" || mainCommand === "h")
+      bot.commands.get('help').execute(receivedMessage, args);
     //else receivedMessage.channel.send("Unknown Command");
 }
 

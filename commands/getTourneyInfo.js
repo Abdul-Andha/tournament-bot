@@ -4,7 +4,7 @@ let teams;
 
 module.exports = {
   name: 'getTourneyInfo',
-  description: 'Command for higher staff. Gives info about the tournament including name, game, number of teams approved, and number of teams pending. Format: .gettourneyinfo ["tourneyName"]',
+  description: 'Command for anyone. Gives info about the tournament including name, game, number of teams approved, and number of teams pending. Format: .gettourneyinfo ["tourneyName"]',
   execute(receivedMessage, args, Team, Tournament) {
     if (args.length > 1) {
       receivedMessage.channel.send('Invalid arguments. Check the format again.');
