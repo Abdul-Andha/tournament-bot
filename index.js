@@ -28,6 +28,9 @@ async function accessSpreadsheet() {
 accessSpreadsheet().then(() => console.log("connected to sheets"))
 .catch((err) => console.log(err));
 
+const Canvas = require('canvas');
+
+
 //init bot
 const Discord = require(`discord.js`);
 const bot = new Discord.Client();
@@ -126,7 +129,7 @@ function processCommand(receivedMessage) {
     else if ((mainCommand === "signup" || mainCommand === "s"))
       bot.commands.get('signupTeam').execute(receivedMessage, args, Team, Tournament, teamSheet);
 
-    else if ((mainCommand === "remove" || mainCommand === "rp"))
+    else if ((mainCommand === "removeplayer" || mainCommand === "remove" || mainCommand === "rp"))
       bot.commands.get('removePlayer').execute(receivedMessage, args, Team, Tournament);
 
     else if ((mainCommand === "roster" || mainCommand === "r"))
