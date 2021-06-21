@@ -1,5 +1,6 @@
 const Discord = require(`discord.js`);
 const helper = require('./helperFunctions');
+const outputMessage = new Discord.MessageEmbed();;
 
 module.exports = {
   name: 'help',
@@ -9,19 +10,55 @@ module.exports = {
       receivedMessage.channel.send('Invalid arguments. Check the format again.');
       return receivedMessage.react('❌');
     }
-    
-    const outputMessage = new Discord.MessageEmbed();
-	outputMessage.setColor("#A207FA");
+    let command = args[0];
+
+		outputMessage.setColor("#000000");
 	
-    if (args.length == 0) {
+    if (!command) {
       outputMessage.setTitle("**__All Available Commands__**");
       outputMessage.setDescription(getCommandsList());
-    } else {
-      command = args[0].charAt(0).toUpperCase() + args[0].slice(1).toLowerCase();
-	  outputMessage.setTitle("**__" + command + " Command Guide__**");
-	  outputMessage.setDescription("yoo");
-    }
+    } else if (command == "signup" || command == "s") {
+	  	outputMessage.setTitle("**__Signup Command Guide__**");
+	  	outputMessage.setDescription(getSignupHelp());
+    } else if (command == "invite" || command == "i") {
+			outputMessage.setTitle("**__Invite Command Guide__**");
+	  	outputMessage.setDescription(getInviteHelp());
+		}
+
+		receivedMessage.channel.send(outputMessage);
+		receivedMessage.react('✅')
   }
+}
+
+function getCommandsList() {
+	let returnStr = "Signup - s\n";
+	returnStr += "Invite - i\n";
+	returnStr += "AcceptInvite - ai\n";
+	returnStr += "RemovePlayer - rp\n";
+	returnStr += "Roster - r\n";
+	returnStr += "GetInfo - gi\n";
+	returnStr += "GetTourneyInfo - gti\n";
+	returnStr += "Help - h\n";
+	returnStr += "\n*Run .help <commandName> for a detailed guide on how to use the specified command.*";
+	return returnStr;
+}
+
+function getSignupHelp() {
+	let returnStr = "**Format:** .signup <Tournament Name> <teamCode>\n\n";
+	returnStr += "*- This command is used to signup for any open tournaments.*\n"
+	returnStr += "*- This command is only for captains.*\n" 
+	returnStr += "*- You must run this command in a direct message (DM) channel with the bot, so you do not share your team code.*\n"
+	returnStr += "*- You must fill out the MESA Teams Application, found on our website, to get a team code.*\n"
+	return returnStr;
+}
+
+function getInviteHelp() {
+	let returnStr = "**Format:** .invite <Tournament Name> <Team Name> @player1 @player2\n\n";
+	returnStr += "*- This command is used to invite players to your team for a specific tournament.*\n"
+	returnStr += "*- You must first signup for the tournament before running this command.*\n"
+	returnStr += "*- You can invite as many people as you want with one run of the command.*\n"
+	returnStr += "*- The captain must invite themselves if they wish to be on the roster.*\n"
+	return returnStr;
 }
 
 /*
