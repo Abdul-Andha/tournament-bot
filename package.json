@@ -2,6 +2,7 @@
   "name": "mesabot",
   "version": "1.0.0",
   "dependencies": {
+    "canvas": "^2.8.0",
     "discord.js": "^12.5.3",
     "google-spreadsheet": "^3.1.15",
     "mongoose": "^5.12.12"
