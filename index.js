@@ -151,6 +151,10 @@ function processCommand(receivedMessage) {
       
     else if (mainCommand === "help" || mainCommand === "h")
       bot.commands.get('help').execute(receivedMessage, args);
+
+      else if ( (mainCommand === "staffhelp"|| mainCommand === "sh") 
+      && (receivedMessage.member) && (helper.hasRole(receivedMessage.member, "Branch Directors") || helper.hasRole(receivedMessage.member, "Pro Manager")) )
+      bot.commands.get('staffHelp').execute(receivedMessage, args);
     //else receivedMessage.channel.send("Unknown Command");
 }
 
