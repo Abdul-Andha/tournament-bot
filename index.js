@@ -29,9 +29,6 @@ async function accessSpreadsheet() {
 accessSpreadsheet().then(() => console.log("connected to sheets"))
 .catch((err) => console.log(err));
 
-const Canvas = require('canvas');
-
-
 //init bot
 const Discord = require(`discord.js`);
 const bot = new Discord.Client();
@@ -160,6 +157,10 @@ function processCommand(receivedMessage) {
     else if ( (mainCommand === "archive"|| mainCommand === "a") 
     && (receivedMessage.member) && (helper.hasRole(receivedMessage.member, "Branch Directors") || helper.hasRole(receivedMessage.member, "Pro Manager")) )
       bot.commands.get('archiveTourney').execute(receivedMessage, args, Tournament, ArchivedTournament);
+    
+    else if ( (mainCommand === "viewbracket"|| mainCommand === "bracket" || mainCommand === "vb" || mainCommand === "b") 
+      && (receivedMessage.member) && (helper.hasRole(receivedMessage.member, "Branch Directors") || helper.hasRole(receivedMessage.member, "Pro Manager")) )
+        bot.commands.get('showBracket').execute(receivedMessage, args, Tournament);
 }
 
 //login as bot
