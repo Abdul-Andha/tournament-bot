@@ -18,8 +18,8 @@ module.exports = {
       receivedMessage.channel.send(outputMessage);
 		  return receivedMessage.react('✅');
     } else {
-			command = command.toLowerCase();
-		}
+	  command = command.toLowerCase();
+	}
 		
 		if (command == "newtournament" || command == "newtourney" || command == "nt") {
 	  	outputMessage.setTitle("**__New Tournament Command Guide__**");

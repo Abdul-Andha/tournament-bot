@@ -8,7 +8,8 @@ mongoose.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true})
 
 const Player = require('./models/player.js');
 const Team = require('./models/team.js');
-const Tournament = require('./models/tournament.js');
+const Tournament = require('./models/tournament.js').Tournament;
+const ArchivedTournament = require('./models/tournament.js').ArchivedTournament;
 
 //require helper functions
 const helper = require('./commands/helperFunctions');
@@ -61,7 +62,7 @@ bot.on(`message`, (receivedMessage) => {
 
 //command handler
 function processCommand(receivedMessage) {
-    let fullCommand = receivedMessage.content.substr(1); //removes prefix
+  let fullCommand = receivedMessage.content.substr(1); //removes prefix
     
     //turns command into array split on spaces
     //also checks for <> and treats everything inside a set of <>
@@ -96,7 +97,7 @@ function processCommand(receivedMessage) {
     let args = splitCommand.slice(1);
     
     //checks mainCommand to determine what command to execute
-    if (mainCommand === 'register')
+    /*if (mainCommand === 'register')
       bot.commands.get('registerPlayer').execute(receivedMessage, Player);
       
     else if (mainCommand === "unregister")
@@ -106,26 +107,14 @@ function processCommand(receivedMessage) {
       bot.commands.get('createTeam').execute(receivedMessage, args, Player, Team);
         
     else if (mainCommand === "disband")
-      bot.commands.get('disbandTeam').execute(receivedMessage, args, Team);
+      bot.commands.get('disbandTeam').execute(receivedMessage, args, Team);*/
       
-    else if ((mainCommand === "invite" || mainCommand === "i"))
+    if ((mainCommand === "invite" || mainCommand === "i"))
       bot.commands.get('invitePlayer').execute(receivedMessage, args, Team, Tournament);
       
     else if ((mainCommand === "acceptinvite" || mainCommand === "ai"))
       bot.commands.get('acceptInvite').execute(receivedMessage, args, Team, Tournament);
-    
-    else if ( (mainCommand === "newtourney"|| mainCommand === "newtournament" || mainCommand === "nt") 
-    && (receivedMessage.member) && (helper.hasRole(receivedMessage.member, "Branch Directors") || helper.hasRole(receivedMessage.member, "Pro Manager")) )
-      bot.commands.get('createTournament').execute(receivedMessage, args, Tournament);
-    
-    else if ( (mainCommand === "rosterchange"|| mainCommand === "rc") 
-    && (receivedMessage.member) && (helper.hasRole(receivedMessage.member, "Branch Directors") || helper.hasRole(receivedMessage.member, "Pro Manager")) )
-      bot.commands.get('rosterChange').execute(receivedMessage, args, Team, Tournament);
       
-    else if ( (mainCommand === "setsignups"|| mainCommand === "ss") 
-    && (receivedMessage.member) && (helper.hasRole(receivedMessage.member, "Branch Directors") || helper.hasRole(receivedMessage.member, "Pro Manager")) )
-      bot.commands.get('updateSignups').execute(receivedMessage, args, Tournament);
-    
     else if ((mainCommand === "signup" || mainCommand === "s"))
       bot.commands.get('signupTeam').execute(receivedMessage, args, Team, Tournament, teamSheet);
 
@@ -141,6 +130,21 @@ function processCommand(receivedMessage) {
     else if ((mainCommand === "gettourneyinfo"|| mainCommand === "gti"))
       bot.commands.get('getTourneyInfo').execute(receivedMessage, args, Team, Tournament);
       
+    else if (mainCommand === "help" || mainCommand === "h")
+      bot.commands.get('help').execute(receivedMessage, args);
+    
+    else if ( (mainCommand === "newtourney"|| mainCommand === "newtournament" || mainCommand === "nt") 
+    && (receivedMessage.member) && (helper.hasRole(receivedMessage.member, "Branch Directors") || helper.hasRole(receivedMessage.member, "Pro Manager")) )
+      bot.commands.get('createTournament').execute(receivedMessage, args, Tournament);
+    
+    else if ( (mainCommand === "rosterchange"|| mainCommand === "rc") 
+    && (receivedMessage.member) && (helper.hasRole(receivedMessage.member, "Branch Directors") || helper.hasRole(receivedMessage.member, "Pro Manager")) )
+      bot.commands.get('rosterChange').execute(receivedMessage, args, Team, Tournament);
+      
+    else if ( (mainCommand === "setsignups"|| mainCommand === "ss") 
+    && (receivedMessage.member) && (helper.hasRole(receivedMessage.member, "Branch Directors") || helper.hasRole(receivedMessage.member, "Pro Manager")) )
+      bot.commands.get('updateSignups').execute(receivedMessage, args, Tournament);
+      
     else if ( (mainCommand === "createbracket"|| mainCommand === "cb") 
     && (receivedMessage.member) && (helper.hasRole(receivedMessage.member, "Branch Directors") || helper.hasRole(receivedMessage.member, "Pro Manager")) )
       bot.commands.get('createBracket').execute(receivedMessage, args, Team, Tournament);
@@ -148,14 +152,14 @@ function processCommand(receivedMessage) {
     else if ( (mainCommand === "reportwinner"|| mainCommand === "rw") 
     && (receivedMessage.member) && (helper.hasRole(receivedMessage.member, "Branch Directors") || helper.hasRole(receivedMessage.member, "Pro Manager")) )
       bot.commands.get('updateBracket').execute(receivedMessage, args, Tournament);
-      
-    else if (mainCommand === "help" || mainCommand === "h")
-      bot.commands.get('help').execute(receivedMessage, args);
 
-      else if ( (mainCommand === "staffhelp"|| mainCommand === "sh") 
-      && (receivedMessage.member) && (helper.hasRole(receivedMessage.member, "Branch Directors") || helper.hasRole(receivedMessage.member, "Pro Manager")) )
+    else if ( (mainCommand === "staffhelp"|| mainCommand === "sh") 
+    && (receivedMessage.member) && (helper.hasRole(receivedMessage.member, "Branch Directors") || helper.hasRole(receivedMessage.member, "Pro Manager")) )
       bot.commands.get('staffHelp').execute(receivedMessage, args);
-    //else receivedMessage.channel.send("Unknown Command");
+      
+    else if ( (mainCommand === "archive"|| mainCommand === "a") 
+    && (receivedMessage.member) && (helper.hasRole(receivedMessage.member, "Branch Directors") || helper.hasRole(receivedMessage.member, "Pro Manager")) )
+      bot.commands.get('archiveTourney').execute(receivedMessage, args, Tournament, ArchivedTournament);
 }
 
 //login as bot

@@ -39,5 +39,7 @@ const tournamentSchema = new Schema({
 }, { timestamps: true });
 
 const Tournament = mongoose.model('Tournament', tournamentSchema);
+const ArchivedTournament = mongoose.model('Archived Tournaments', tournamentSchema);
 
-module.exports = Tournament;
+module.exports.Tournament = Tournament;
+module.exports.ArchivedTournament = ArchivedTournament;
