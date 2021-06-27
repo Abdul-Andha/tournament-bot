@@ -26,26 +26,28 @@ module.exports = {
 }
 
 async function drawBracket(receivedMessage) {
-  const canvas = Canvas.createCanvas(585, 453);
+  const canvas = Canvas.createCanvas(1278, 990);
   const ctx = canvas.getContext("2d");
 
-  const background = await Canvas.loadImage("https://www.printyourbrackets.com/thumbs/16-team-tournament-bracket.gif");
+  const background = await Canvas.loadImage("https://www.ledr.com/colours/white.jpg");
   
   ctx.drawImage(background, 0, 0, canvas.width, canvas.height);
-  ctx.font = '10px "sans-serif"';
-  let x = 20;
-  let y = 33;
+  ctx.font = '16px "sans-serif"';
+  let storedY = 120;
+  let x = 70;
+  let y = storedY;
+  let xToAdd = 225;
+  let yToAdd = 48;
   for (let i = 0; i < bracket.length; i++) {
     for (let j = 0; j < bracket[i].length; j++) {
       let teamName = bracket[i][j];
       ctx.fillText(teamName, x, y);
-      if (i == 0)
-        y += 27  
-      else
-        y += 27 * (2 * i);
+      y += yToAdd;//48
     }
-    x += 100 + i * 10;
-    y = 40 + i * 25;
+    x += xToAdd;
+    y = (storedY + (storedY + yToAdd)) / 2;
+    storedY = y;
+    yToAdd *= 2;
   }
 
   const final = new Discord.MessageAttachment(canvas.toBuffer(), "bracket.png");
