@@ -83,14 +83,14 @@ function setNumRounds() {
 function initBracket() {
   bracket = [];
   for (let i = 0; i < numRounds; i++) {
-    bracket[i] = [];  
+    bracket[i] = [];
   }
-  
+
   let numByesLeft = numByes;
   let remainingTeams = teams;
   let roundSize = bracketSize;
-  
-  for (let roundNum = 0; roundNum < 5; roundNum++) {
+
+  for (let roundNum = 0; roundNum < numRounds; roundNum++) {
     for (let teamNum = 0; teamNum < roundSize; teamNum++) {
       if (remainingTeams.length == 0) {
         bracket[roundNum][teamNum] = "TBD";
