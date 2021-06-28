@@ -45,6 +45,9 @@ module.exports = {
 		} else if (command == "gettourneyinfo" || command == "gti") {
 			outputMessage.setTitle("**__Get Tourney Info Command Guide__**");
 			outputMessage.setDescription(getGetTouneyInfoHelp());
+		} else if (command == "bracket" || command == "b") {
+			outputMessage.setTitle("**__Bracket Command Guide__**");
+			outputMessage.setDescription(getBracketHelp());
 		} else {
 			receivedMessage.channel.send("Command not found.");
 			return receivedMessage.react('❌');
@@ -63,6 +66,7 @@ function getCommandsList() {
 	returnStr += "Roster - r\n";
 	returnStr += "GetInfo - gi\n";
 	returnStr += "GetTourneyInfo - gti\n";
+	returnStr += "Bracket - b\n";
 	returnStr += "Help - h\n";
 	returnStr += "\n*Run .help <commandName> for a detailed guide on how to use the specified command.*";
 	returnStr += "\n*Run .help <tips> for tips that apply to all commands.*";
@@ -146,4 +150,12 @@ function getGetTouneyInfoHelp() {
 	returnStr += "*- This command is used to get detailed information about a specific tournament.*\n";
 	returnStr += "*- When no tournament is specified, it will give a list of active tournaments.*"
 	return returnStr;
+}
+
+function getBracketHelp() {
+	let returnStr = "**Format:** .bracket <Tournament Name>\n\n";
+  returnStr += "*- This command is used to see the bracket for a tournament.*\n";
+  returnStr += "*- Run this command again to view updates to the bracket.*\n";
+  returnStr += "*- The bracket will be an image that can be saved and shared.*";
+  return returnStr;
 }

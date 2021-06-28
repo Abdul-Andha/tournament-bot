@@ -16,7 +16,7 @@ module.exports = {
       name: tourneyName
     }).then(res => {
       tournament = res;
-      if (tournament.bracket.length == 0) {
+      if (tournament.bracket[0].length == 0) {
         receivedMessage.channel.send("This tournament does not have a bracket yet.");
         receivedMessage.react('❌');
       } else {
