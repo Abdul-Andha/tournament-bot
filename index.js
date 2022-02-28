@@ -1,6 +1,6 @@
 //connect to db and init models
 const mongoose = require('mongoose');
-const uri = "mongodb://thunder:Id223278342@mesatourneydb-shard-00-00.5e4g6.mongodb.net:27017,mesatourneydb-shard-00-01.5e4g6.mongodb.net:27017,mesatourneydb-shard-00-02.5e4g6.mongodb.net:27017/mesaDB?ssl=true&replicaSet=atlas-unw55f-shard-0&authSource=admin&retryWrites=true&w=majority";
+const uri = process.env.mongoURI;
 
 mongoose.connect(uri, {
     useNewUrlParser: true,
@@ -166,4 +166,4 @@ function processCommand(receivedMessage) {
 }
 
 //login as bot
-bot.login("ODQ2ODQzMjcyNzE4MTg4NTk0.YK1aQQ.XdCM1cJV4VNDCHtYLQAjLGi7bwQ");
+bot.login(process.env.TOKEN);
